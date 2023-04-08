@@ -27,3 +27,23 @@ This is a poorly written application, and we're expecting the candidate to great
   * Any movies showing on 7th, you'll get 1$ discount
   * The discount amount applied only one if met multiple rules; biggest amount one
 * We want to print the movie schedule with simple text & json format
+
+## Change Log
+* Made application into a Spring Boot Application
+  * Enables use of Spring Framework to allow for IOC, dependency injection,
+  and easier testing
+  * refactored project structure and moved existing classes to new package structure.
+  * moved operation code to service classes
+  * updated to use Java 11
+  * implemented all new requirements
+      * added support for time-of-day based discounts
+      * added support for day-of-month discount
+      * added support for outputting movie schedule in json format.
+      * added logic to handle edge case of negative ticket prices.
+  * added unit tests for all classes
+  * added Project Lombok dependency to enable the use of annotations to help 
+  eliminate boilerplate code
+  * added mockito library to enable mocking of dependencies
+  * created config, model, service, and util packages
+  * created service classes for performing business operations.
+  

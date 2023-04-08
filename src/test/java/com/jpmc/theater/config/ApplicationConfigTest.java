@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ApplicationConfigTest {
 
+    /**
+     * Test Jackson ObjectMapper is configured.
+     */
     @Test
     public void testObjectMapper()  {
         ApplicationConfig applicationConfig = new ApplicationConfig();

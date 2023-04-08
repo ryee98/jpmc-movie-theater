@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.String.*;
+
 /**
  * ScheduleService - service class that is responsible for providing schedule services.
  * Currently, it generates the moving showing schedule in text and json formats.
@@ -82,7 +84,7 @@ public class ScheduleService {
                 }
                 break;
             default:
-                throw new ScheduleException(String.format("unsupported schedule format: " + format));
+                throw new ScheduleException(format("unsupported schedule format: " + format));
         }
         return response;
     }
@@ -93,15 +95,14 @@ public class ScheduleService {
         stringBuilder.append(NEWLINE);
         stringBuilder.append("===================================================\n");
         schedule.forEach(s ->
-                        stringBuilder.append(String.format("%1$d: %2$s %3$s (%4$s) $%5$4.2f\n",s.getSequenceOfTheDay(), StringUtils.formatDateTime(s.getStartTime()),
-                                s.getMovie().getTitle(), StringUtils.formatDuration(s.getMovie().getRunningTime()),s.getMovieFee())));
+                        stringBuilder.append(format("%1$d: %2$s %3$s (%4$s) $%5$4.2f\n",s.getSequenceOfTheDay(), StringUtils.formatDateTime(s.getStartTime()),
+                                s.getMovie().getTitle(), StringUtils.formatDuration(s.getMovie().getRunningTime()),s.getMovie().getTicketPrice())));
         stringBuilder.append("===================================================\n");
         return stringBuilder.toString();
     }
 
     protected String generateJsonSchedule() throws JsonProcessingException {
-        String json = objectMapper.writeValueAsString(schedule);
-        return json;
+        return objectMapper.writeValueAsString(schedule);
     }
 
 }

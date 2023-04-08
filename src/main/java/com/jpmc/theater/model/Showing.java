@@ -10,7 +10,6 @@ public class Showing {
     private Movie movie;
     private int sequenceOfTheDay;
 
-    private double movieFee;
     @JsonFormat(pattern="MM-dd-yyyy h:mma") // formats the LocalDateTime as date/time pattern instead of the default [ YYYY, M, d, H, m ] format
     private LocalDateTime startTime;
 
@@ -20,15 +19,4 @@ public class Showing {
         this.startTime = startTime;
     }
 
-    public boolean isSequence(int sequence) {
-        return this.sequenceOfTheDay == sequence;
-    }
-
-    public double getMovieFee() {
-        return movie.getTicketPrice();
-    }
-
- //   private double calculateFee(int audienceCount) {
- //       return movie.calculateTicketPrice(this) * audienceCount;
- //   }
 }
