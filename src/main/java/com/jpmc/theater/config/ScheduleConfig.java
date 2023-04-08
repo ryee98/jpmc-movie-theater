@@ -25,6 +25,11 @@ public class ScheduleConfig {
     public ScheduleConfig(LocalDateProvider localDateProvider) {
         this.localDateProvider = localDateProvider;
     }
+
+    /**
+     * getSchedule - a Spring managed bean that returns a List of Movie showings that represents the movie schedule
+     * @return A List of movie Showings
+     */
     @Bean
     public List<Showing> getSchedule() {
         Movie spiderMan = new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5, 1);
@@ -43,7 +48,7 @@ public class ScheduleConfig {
                 new Showing(turningRed, 7, LocalDateTime.of(today, LocalTime.of(19, 30))),
                 new Showing(spiderMan, 8, LocalDateTime.of(today, LocalTime.of(21, 10))),
                 new Showing(theBatMan, 9, LocalDateTime.of(today, LocalTime.of(23, 0))),
-                new Showing(movieShort, 0, LocalDateTime.of(today, LocalTime.of(8, 45)))
+                new Showing(movieShort, 10, LocalDateTime.of(today, LocalTime.of(23, 30)))
         );
         return schedule;
     }

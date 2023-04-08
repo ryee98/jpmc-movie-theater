@@ -40,7 +40,7 @@ public class Theater {
   //      applicationContext =
   //              new AnnotationConfigApplicationContext(SpringComponentScanApp.class);
         Theater theater = new Theater(new LocalDateProvider());
-        theater.printSchedule();
+
     }
 
     public Reservation reserve(Customer customer, int sequence, int howManyTickets) {
@@ -52,22 +52,6 @@ public class Theater {
             throw new IllegalStateException("not able to find any showing for given sequence " + sequence);
         }
         return new Reservation(customer, showing, howManyTickets);
-    }
-
-    public void printSchedule() {
-        System.out.println(provider.currentDate());
-        System.out.println("===================================================");
-        schedule.forEach(s ->
-                System.out.println(s.getSequenceOfTheDay() + ": " + s.getStartTime() + " " + s.getMovie().getTitle() + " " + humanReadableFormat(s.getMovie().getRunningTime()) + " $" + s.getMovieFee())
-        );
-        System.out.println("===================================================");
-    }
-
-    public String humanReadableFormat(Duration duration) {
-        long hour = duration.toHours();
-        long remainingMin = duration.toMinutes() - TimeUnit.HOURS.toMinutes(duration.toHours());
-
-        return String.format("(%s hour%s %s minute%s)", hour, StringUtils.handlePlural(hour), remainingMin, StringUtils.handlePlural(remainingMin));
     }
 
 }

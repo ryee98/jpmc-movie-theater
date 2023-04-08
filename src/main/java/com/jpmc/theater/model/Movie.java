@@ -7,6 +7,9 @@ import lombok.Data;
 
 import java.time.Duration;
 
+/**
+ * Movie - a model class that represents a movie.
+ */
 @Data
 public class Movie {
 

@@ -16,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ScheduleConfigTest {
 
+    /**
+     * Test movie showtime schedule is configured
+     * Verify that 10 show times exist in the schedule and that
+     */
     @Test
     public void testGetSchedule() {
         ScheduleConfig scheduleConfig = new ScheduleConfig(new LocalDateProvider());
@@ -23,7 +27,7 @@ class ScheduleConfigTest {
         assertEquals(10, schedule.size());
         LocalDate today = LocalDate.now();
         Movie movieShort = new Movie("Upcoming Previews", Duration.ofMinutes(12), 0, 0);
-        Showing showing = new Showing(movieShort, 0, LocalDateTime.of(today, LocalTime.of(8, 45)));
+        Showing showing = new Showing(movieShort, 10, LocalDateTime.of(today, LocalTime.of(23, 30)));
         assertTrue(schedule.contains(showing));
     }
 }

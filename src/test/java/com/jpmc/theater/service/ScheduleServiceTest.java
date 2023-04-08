@@ -10,10 +10,7 @@ import com.jpmc.theater.model.Showing;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,8 +42,7 @@ class ScheduleServiceTest {
             "    \"specialCode\" : 0\n" +
             "  },\n" +
             "  \"sequenceOfTheDay\" : 3,\n" +
-            "  \"movieFee\" : 9.0,\n" +
-            "  \"startTime\" : \"04-07-2023 12:50PM\"\n" +
+            "  \"startTime\" : \"04-06-2023 12:50PM\"\n" +
             "}";
     private static final String TEST_TEXT_SHOWING = "2: 11:00AM Spider-Man: No Way Home (1 hour 30 minutes) $12.50";
     private ScheduleService scheduleService;
@@ -125,7 +121,7 @@ class ScheduleServiceTest {
         Movie theBatMan = new Movie("The Batman", Duration.ofMinutes(95), 9, 0);
         Movie movieShort = new Movie("Upcoming Previews", Duration.ofMinutes(12), 0, 0);
         List<Showing> schedule;
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.of(2023, Month.APRIL, 6);
         schedule = List.of(
                 new Showing(turningRed, 1, LocalDateTime.of(today, LocalTime.of(9, 0))),
                 new Showing(spiderMan, 2, LocalDateTime.of(today, LocalTime.of(11, 0))),

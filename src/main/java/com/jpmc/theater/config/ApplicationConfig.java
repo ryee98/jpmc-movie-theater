@@ -12,6 +12,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfig {
 
+    /**
+     * objectMapper - a configured Jackson ObjectMapper instance that is used for serializing the movie schedule.
+     * @return An ObjectMapper instance configured with the JavaTimeModule and for pretty-printing the JSON output.
+     */
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
