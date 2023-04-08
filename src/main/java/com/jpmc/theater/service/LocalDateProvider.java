@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 /**
  * LocalDateProvider - Spring component that provides a method for returning the current date.
- * This class was changed to be a Spring component bean which is a singleton by default. There really
- * isn't a need for this component. However, it has been kept b/c it was part of the original project.
+ * This class was changed to be a Spring component bean which is a singleton by default. This class helps with
+ * unit testing since it provides method that can be mocked to return different dates when testing.
  */
 @Component
 public class LocalDateProvider {

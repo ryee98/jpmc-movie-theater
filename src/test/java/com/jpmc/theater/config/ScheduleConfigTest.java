@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ class ScheduleConfigTest {
 
     /**
      * Test movie showtime schedule is configured
-     * Verify that 10 show times exist in the schedule and that
+     * Verify that 10 show times exist in the schedule
      */
     @Test
     public void testGetSchedule() {

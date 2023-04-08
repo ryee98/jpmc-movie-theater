@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ScheduleServiceTest {
 
@@ -35,16 +37,17 @@ class ScheduleServiceTest {
             "===================================================\n";
 
     private static final String TEST_JSON_SHOWING = "{\n" +
-            "  \"movie\" : {\n" +
-            "    \"title\" : \"The Batman\",\n" +
-            "    \"runningTime\" : \"1 hour 35 minutes\",\n" +
-            "    \"ticketPrice\" : 9.0,\n" +
-            "    \"specialCode\" : 0\n" +
-            "  },\n" +
-            "  \"sequenceOfTheDay\" : 3,\n" +
-            "  \"startTime\" : \"04-06-2023 12:50PM\"\n" +
-            "}";
+            "    \"movie\" : {\n" +
+            "      \"title\" : \"The Batman\",\n" +
+            "      \"runningTime\" : \"1 hour 35 minutes\",\n" +
+            "      \"ticketPrice\" : 9.0,\n" +
+            "      \"specialCode\" : 0\n" +
+            "    },\n" +
+            "    \"sequenceOfTheDay\" : 3,\n" +
+            "    \"startTime\" : \"04-06-2023 12:50PM\"\n" +
+            "  }";
     private static final String TEST_TEXT_SHOWING = "2: 11:00AM Spider-Man: No Way Home (1 hour 30 minutes) $12.50";
+    private static final LocalDate DATE = LocalDate.of(2023,Month.APRIL,6);
     private ScheduleService scheduleService;
 
     @BeforeEach
@@ -53,8 +56,9 @@ class ScheduleServiceTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        LocalDateProvider localDateProvider = new LocalDateProvider();
-        scheduleService = new ScheduleService(schedule, objectMapper, localDateProvider);
+        LocalDateProvider mockLocalDateProvider = mock(LocalDateProvider.class);
+        when(mockLocalDateProvider.currentDate()).thenReturn(DATE);
+        scheduleService = new ScheduleService(schedule, objectMapper, mockLocalDateProvider);
     }
 
     @Test

@@ -109,7 +109,7 @@ public class ScheduleService implements IScheduleService {
     }
 
     protected String generateJsonSchedule() throws JsonProcessingException {
-        MovieSchedule movieSchedule = new MovieSchedule(LocalDate.now(), schedule);
+        MovieSchedule movieSchedule = new MovieSchedule(localDateProvider.currentDate(), schedule);
         return objectMapper.writeValueAsString(movieSchedule);
     }
 
