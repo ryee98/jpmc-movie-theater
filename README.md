@@ -46,4 +46,6 @@ This is a poorly written application, and we're expecting the candidate to great
   * added mockito library to enable mocking of dependencies
   * created config, model, service, and util packages
   * created service classes for performing business operations.
+  * added interface classes to service classes. Changed the method signature of the pricing service and reservation service to simplify usage.
+  * addressed issue with flakey unit tests due to time they are run.
   
