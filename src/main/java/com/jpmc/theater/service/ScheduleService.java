@@ -3,12 +3,15 @@ package com.jpmc.theater.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jpmc.theater.exception.ScheduleException;
+import com.jpmc.theater.model.MovieSchedule;
 import com.jpmc.theater.model.Showing;
 import com.jpmc.theater.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -23,13 +26,13 @@ import static java.lang.String.*;
  * Created by ryee on 4/7/23
  */
 @Service
-public class ScheduleService {
+public class ScheduleService implements IScheduleService {
 
     public static final int DEFAULT_SIZE = 1024;
     public static final String NEWLINE = "\n";
     public static final String JSON_FORMAT = MediaType.APPLICATION_JSON_VALUE;
     public static final String TEXT_FORMAT = MediaType.TEXT_PLAIN_VALUE;
-    public static final Set<String> SUPPORTED_SCHEDULE_FORMATS = new HashSet<>();
+    public static final List<String> SUPPORTED_SCHEDULE_FORMATS = new ArrayList<>();
 
     static {
         Collections.addAll(SUPPORTED_SCHEDULE_FORMATS, JSON_FORMAT, TEXT_FORMAT);
@@ -45,6 +48,10 @@ public class ScheduleService {
         this.schedule = schedule;
         this.objectMapper = objectMapper;
         this.localDateProvider = localDateProvider;
+    }
+
+    public List<String> getSupportedFormats() {
+        return SUPPORTED_SCHEDULE_FORMATS;
     }
 
     /**
@@ -102,7 +109,8 @@ public class ScheduleService {
     }
 
     protected String generateJsonSchedule() throws JsonProcessingException {
-        return objectMapper.writeValueAsString(schedule);
+        MovieSchedule movieSchedule = new MovieSchedule(LocalDate.now(), schedule);
+        return objectMapper.writeValueAsString(movieSchedule);
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Collections;
  * Created by ryee on 4/6/23
  */
 @Service
-public class PricingService {
+public class PricingService implements IPricingService {
     private static int MOVIE_CODE_SPECIAL = 1;
     public static final double SPECIAL_MOVIE_DISCOUNT_PERCENT = 0.2; // 20% discount for special movie
     public static final double TIME_DISCOUNT_PERCENT = 0.25; // 25% discount for movies starting between certain times
@@ -27,8 +27,8 @@ public class PricingService {
     public static final int DATE_DISCOUNT_DAY = 7; // 7th of the month is discount day
     public static final double DATE_DISCOUNT_AMOUNT = 1.00;
 
-    public double calculateTicketPrice(Showing showing, Movie movie) {
-        return Math.max(movie.getTicketPrice() - calculateDiscount(showing, movie), 0.0); // prevent negative ticket pricing
+    public double calculateTicketPrice(Showing showing) {
+        return Math.max(showing.getMovie().getTicketPrice() - calculateDiscount(showing), 0.0); // prevent negative ticket pricing
     }
 
     /**
@@ -36,22 +36,21 @@ public class PricingService {
      * Value can be 0.0 if no discount rules apply.
      *
      * @param showing - the movie showing
-     * @param movie - the movie
      * @return 0.0 if no discounts apply, otherwise greater of the special discount or the sequence discount
      */
-    public double calculateDiscount(Showing showing, Movie movie) {
+    public double calculateDiscount(Showing showing) {
 
         // calculate special discount
         double specialDiscount = 0;
-        if (isSpecialMovie(movie)) {
-            specialDiscount = movie.getTicketPrice() * SPECIAL_MOVIE_DISCOUNT_PERCENT;
+        if (isSpecialMovie(showing.getMovie())) {
+            specialDiscount = showing.getMovie().getTicketPrice() * SPECIAL_MOVIE_DISCOUNT_PERCENT;
         }
 
         // calculate sequence discount
         double sequenceDiscount = calculateSequenceDiscount(showing);
 
         // calculate time-based discount
-        double timeDiscount = calculateTimeDiscount(showing, movie);
+        double timeDiscount = calculateTimeDiscount(showing);
 
         // calculate date-based discount
         double dateDiscount = calculateDateDiscount(showing);
@@ -79,13 +78,12 @@ public class PricingService {
     /**
      * calculateTimeDiscount - calculates the discount amount based on the time of the movie showing
      * @param showing - The movie showing
-     * @param movie - The movie
      * @return The discount amount or 0.0 if there is no discount
      */
-    protected double calculateTimeDiscount(Showing showing, Movie movie) {
+    protected double calculateTimeDiscount(Showing showing) {
         double discount = 0.0;
         if (showing.getStartTime().getHour() >= TIME_DISCOUNT_START_HOUR && showing.getStartTime().getHour() <= TIME_DISCOUNT_END_HOUR) {
-            discount = movie.getTicketPrice() * TIME_DISCOUNT_PERCENT;
+            discount = showing.getMovie().getTicketPrice() * TIME_DISCOUNT_PERCENT;
         }
         return discount;
     }

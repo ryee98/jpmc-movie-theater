@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
  * Created by ryee on 4/7/23
  */
 @Service
-public class ReservationService {
+public class ReservationService implements IReservationService {
 
-    private ScheduleService scheduleService;
+    private IScheduleService scheduleService;
 
-    private PricingService pricingService;
+    private IPricingService pricingService;
 
     @Autowired
     public ReservationService(ScheduleService scheduleService, PricingService pricingService) {
@@ -24,7 +24,16 @@ public class ReservationService {
         this.pricingService = pricingService;
     }
 
-    public Reservation makeReservation(Customer customer, int sequence, int ticketCount) {
+    /**
+     * makeReservation - service method for creating reservations. This method would validate the components of the reservation
+     * request and perhaps check seating availability. It would also persist the reservation before returning it to the caller.
+     *
+     * @param customer - The customer associated with the reservation.
+     * @param showing - The movie showing for to make the reservation.
+     * @param ticketCount - The number of tickets in the reservation.
+     * @return
+     */
+    public Reservation makeReservation(Customer customer, Showing showing, int ticketCount) {
         // perform some validations. Ideally, this could be done using annotations from the Validator framework
         if (customer == null ) {
             throw new ReservationException("customer is required");
@@ -36,12 +45,6 @@ public class ReservationService {
             throw new ReservationException("invalid ticket count");
         }
 
-        Showing showing;
-        try {
-            showing = scheduleService.getShowing(sequence);
-        } catch (ScheduleException se) {
-            throw new IllegalStateException("not able to find any showing for given sequence " + sequence);
-        }
         return new Reservation(customer, showing, ticketCount);
     }
 
@@ -52,7 +55,7 @@ public class ReservationService {
      * @return The calculated total fee for the reservation
      */
     public double calculateFee(Reservation reservation) {
-        double ticketPrice =  pricingService.calculateTicketPrice(reservation.getShowing(), reservation.getShowing().getMovie());
+        double ticketPrice =  pricingService.calculateTicketPrice(reservation.getShowing());
         return reservation.getPartyCount() * ticketPrice;
     }
 }
