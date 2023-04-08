@@ -41,7 +41,7 @@ class ReservationServiceTest {
         Customer customer = new Customer("John Doe", "unused-id");
         Showing showing = new Showing( new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5,
                 1), 2, LocalDateTime.of(2023, Month.APRIL,6,11,0));
-        Reservation reservation = reservationService.makeReservation(customer, 2, 3);
+        Reservation reservation = reservationService.makeReservation(customer, showing, 3);
         assertEquals(customer, reservation.getCustomer());
         assertEquals(showing, reservation.getShowing());
         assertEquals(3, reservation.getPartyCount());
@@ -50,16 +50,22 @@ class ReservationServiceTest {
 
     @Test
     public void testMakeReservationWithNullCustomer() {
+        Customer customer = new Customer("John Doe", "unused-id");
+        Showing showing = new Showing( new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5,
+                1), 2, LocalDateTime.of(2023, Month.APRIL,6,11,0));
         Exception exception = assertThrows(ReservationException.class, () -> reservationService.makeReservation(null,
-                1, 2 ));
+                showing, 2 ));
         assertEquals("customer is required", exception.getMessage());
     }
 
     @Test
     public void testMakeReservationWithNullCustomerName() {
         Customer customer = new Customer(null, "unused-id");
+        Showing showing = new Showing( new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5,
+                1), 2, LocalDateTime.of(2023, Month.APRIL,6,11,0));
+
         Exception exception = assertThrows(ReservationException.class, () -> {
-            reservationService.makeReservation(null, 1, 2 );
+            reservationService.makeReservation(null, showing, 2 );
         });
         assertEquals("customer is required", exception.getMessage());
     }
@@ -67,8 +73,10 @@ class ReservationServiceTest {
     @Test
     public void testMakeReservationWithBlankCustomerName() {
         Customer customer = new Customer("", "unused-id");
+        Showing showing = new Showing( new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5,
+                1), 2, LocalDateTime.of(2023, Month.APRIL,6,11,0));
         Exception exception = assertThrows(ReservationException.class, () -> {
-            reservationService.makeReservation(customer, 1, 2 );
+            reservationService.makeReservation(customer, showing, 2 );
         });
         assertEquals("customer name is required", exception.getMessage());
     }
@@ -76,10 +84,10 @@ class ReservationServiceTest {
     @Test
     public void testCalculateFee() {
         Customer customer = new Customer("John Doe", "unused-id");
-        Showing showing = new Showing( new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.5,
+        Showing showing = new Showing( new Movie("Spider-Man: No Way Home", Duration.ofMinutes(90), 12.0,
                 0), 1, LocalDateTime.of(2023, Month.APRIL,7,12,0));
-        Reservation reservation = reservationService.makeReservation(customer, 1, 3);
-        assertEquals(24, reservationService.calculateFee(reservation));
+        Reservation reservation = reservationService.makeReservation(customer, showing, 3);
+        assertEquals(27.0, reservationService.calculateFee(reservation));
     }
 
     private List<Showing> createScheduleData() {

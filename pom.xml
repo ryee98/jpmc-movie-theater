@@ -23,6 +23,15 @@
                 <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
                 <version>2.22.0</version>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.0</version>
+                <configuration>
+                    <mainClass>com.jpmc.theater.MovieTheaterApp</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -36,9 +45,7 @@
     </parent>
 
     <properties>
-        <gson.version>2.10.1</gson.version>
         <java.version>11</java.version>
-        <logback.version>1.4.6</logback.version>
         <lombok.version>1.18.26</lombok.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -46,7 +53,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.boot.version>2.7.0</spring.boot.version>
         <spring.version>5.3.26</spring.version>
-        <slf4j.version>2.0.5</slf4j.version>
         <testng.version>7.7.1</testng.version>
         <jackson.version>2.14.2</jackson.version>
     </properties>
@@ -55,17 +61,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

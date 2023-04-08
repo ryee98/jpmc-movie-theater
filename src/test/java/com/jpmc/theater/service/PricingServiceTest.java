@@ -33,7 +33,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, 9, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // ticket price should be full price
-        assertEquals(TEST_TICKET_PRICE, pricingService.calculateTicketPrice(showing, spiderMan));
+        assertEquals(TEST_TICKET_PRICE, pricingService.calculateTicketPrice(showing));
     }
 
     @Test
@@ -41,7 +41,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), 1, 0);
         Showing showing = new Showing(spiderMan, 1, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // ticket price should be full price
-        assertEquals(0, pricingService.calculateTicketPrice(showing, spiderMan));
+        assertEquals(0, pricingService.calculateTicketPrice(showing));
     }
 
     @Test
@@ -49,7 +49,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, 1, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // ticket price should be 20% off of the regular price of 12.5
-        assertEquals(3, pricingService.calculateDiscount(showing, spiderMan));
+        assertEquals(3, pricingService.calculateDiscount(showing));
     }
 
     @Test
@@ -58,7 +58,7 @@ class PricingServiceTest {
         for (int sequence = 3; sequence <= 9; sequence++) {
             Showing showing = new Showing(spiderMan, sequence, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
             // discount should be 0.0
-            assertEquals(0.0, pricingService.calculateDiscount(showing, spiderMan));
+            assertEquals(0.0, pricingService.calculateDiscount(showing));
         }
     }
 
@@ -67,7 +67,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, 1, LocalDateTime.of(DISCOUNT_DATE, DISCOUNT_TIME));
         // discount should be 25% of ticket price which is the largest discount available
-        assertEquals(PricingService.TIME_DISCOUNT_PERCENT * TEST_TICKET_PRICE, pricingService.calculateDiscount(showing, spiderMan));
+        assertEquals(PricingService.TIME_DISCOUNT_PERCENT * TEST_TICKET_PRICE, pricingService.calculateDiscount(showing));
     }
 
     @Test
@@ -75,7 +75,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, 2, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // ticket price should be $2.00 off of the regular price of 12.5
-        assertEquals(2.0, pricingService.calculateDiscount(showing, spiderMan));
+        assertEquals(2.0, pricingService.calculateDiscount(showing));
     }
 
     @Test
@@ -93,7 +93,7 @@ class PricingServiceTest {
         for (int sequence = 3; sequence <= 9; sequence++) {
             showing = new Showing(spiderMan, sequence, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
             // discount should be 0.0
-            assertEquals(0.0, pricingService.calculateDiscount(showing, spiderMan));
+            assertEquals(0.0, pricingService.calculateDiscount(showing));
         }
     }
 
@@ -105,7 +105,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 1);
         Showing showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // ticket price should be 20% off of the regular price of 12.5
-        assertEquals(0.2 * TEST_TICKET_PRICE, pricingService.calculateDiscount(showing, spiderMan));
+        assertEquals(0.2 * TEST_TICKET_PRICE, pricingService.calculateDiscount(showing));
     }
 
     /**
@@ -116,7 +116,7 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 1);
         Showing showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // ticket price should be 20% off of the regular price of 12.5
-        assertEquals(0.8 * TEST_TICKET_PRICE, pricingService.calculateTicketPrice(showing, spiderMan));
+        assertEquals(0.8 * TEST_TICKET_PRICE, pricingService.calculateTicketPrice(showing));
     }
 
     /**
@@ -127,11 +127,11 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // discount should be $1.00
-        assertEquals(1.0, pricingService.calculateDiscount(showing, spiderMan));
+        assertEquals(1.0, pricingService.calculateDiscount(showing));
 
         showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, NON_DISCOUNT_TIME));
         // discount should be 0.0
-        assertEquals(0.0, pricingService.calculateDiscount(showing, spiderMan));
+        assertEquals(0.0, pricingService.calculateDiscount(showing));
     }
 
     /**
@@ -143,22 +143,22 @@ class PricingServiceTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, DISCOUNT_TIME));
         // discount should be 0.0
-        assertEquals(0.25 * TEST_TICKET_PRICE, pricingService.calculateTimeDiscount(showing, spiderMan));
+        assertEquals(0.25 * TEST_TICKET_PRICE, pricingService.calculateTimeDiscount(showing));
 
         showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, LocalTime.of(PricingService.TIME_DISCOUNT_START_HOUR, 0)));
         // discount should be 0.0
-        assertEquals(0.25 * TEST_TICKET_PRICE, pricingService.calculateTimeDiscount(showing, spiderMan));
+        assertEquals(0.25 * TEST_TICKET_PRICE, pricingService.calculateTimeDiscount(showing));
 
         showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, LocalTime.of(PricingService.TIME_DISCOUNT_END_HOUR, 0)));
         // discount should be 0.0
-        assertEquals(0.25 * TEST_TICKET_PRICE, pricingService.calculateTimeDiscount(showing, spiderMan));
+        assertEquals(0.25 * TEST_TICKET_PRICE, pricingService.calculateTimeDiscount(showing));
 
         showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, LocalTime.of(PricingService.TIME_DISCOUNT_START_HOUR - 1, 0)));
         // discount should be 0.0
-        assertEquals(0.0, pricingService.calculateTimeDiscount(showing, spiderMan));
+        assertEquals(0.0, pricingService.calculateTimeDiscount(showing));
 
         showing = new Showing(spiderMan, NON_DISCOUNT_SEQUENCE, LocalDateTime.of(NON_DISCOUNT_DATE, LocalTime.of(PricingService.TIME_DISCOUNT_END_HOUR + 1, 0)));
         // discount should be 0.0
-        assertEquals(0.0, pricingService.calculateTimeDiscount(showing, spiderMan));
+        assertEquals(0.0, pricingService.calculateTimeDiscount(showing));
     }
 }
