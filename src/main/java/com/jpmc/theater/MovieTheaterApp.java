@@ -22,7 +22,7 @@ public class MovieTheaterApp {
         context = application.run(args);
         // Invoke the services to demonstrate the functionality
         IScheduleService scheduleService = context.getBean(IScheduleService.class);
-        LOGGER.info("movie schedule in text format\n" + scheduleService.generateSchedule(MediaType.TEXT_PLAIN_VALUE));
-        LOGGER.info("movie schedule in json format\n" + scheduleService.generateSchedule(MediaType.APPLICATION_JSON_VALUE));
+        LOGGER.info("\nmovie schedule in text format\n" + scheduleService.generateSchedule(MediaType.TEXT_PLAIN_VALUE));
+        LOGGER.info("\nmovie schedule in json format\n" + scheduleService.generateSchedule(MediaType.APPLICATION_JSON_VALUE));
     }
 }
