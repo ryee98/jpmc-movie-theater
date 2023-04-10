@@ -1,12 +1,15 @@
 package com.jpmc.theater.service.pricing;
 
 import com.jpmc.theater.model.Showing;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SequenceDiscount implements IPricingDiscount {
-    public static final double FIRST_SHOW_DISCOUNT = 3.00;
-    public static final double SECOND_SHOW_DISCOUNT = 2.00;
+    @Value("${first.show.discount:3.00}")
+    private double firstShowDiscount = 3.00;
+    @Value("${second.show.discount:2.00}")
+    public static final double secondShowDiscount = 2.00;
     /**
      * calculateDiscount - calculates the amount of discount based on the showing sequence;
      * @param showing - The movie showing
@@ -18,9 +21,9 @@ public class SequenceDiscount implements IPricingDiscount {
         int showSequence = showing.getSequenceOfTheDay();
 
         if (showing.getSequenceOfTheDay() == 1) {
-            discount = FIRST_SHOW_DISCOUNT;
+            discount = firstShowDiscount;
         } else if (showSequence == 2) {
-            discount = SECOND_SHOW_DISCOUNT;
+            discount = secondShowDiscount;
         }
         return discount;
     }
