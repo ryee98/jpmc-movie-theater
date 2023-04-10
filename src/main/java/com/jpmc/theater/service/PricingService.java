@@ -2,10 +2,14 @@ package com.jpmc.theater.service;
 
 import com.jpmc.theater.model.Showing;
 import com.jpmc.theater.model.Movie;
+import com.jpmc.theater.service.pricing.IPricingDiscount;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * PricingService - service class that implements pricing rules and provides methods for
@@ -18,6 +22,7 @@ public class PricingService implements IPricingService {
     private static int MOVIE_CODE_SPECIAL = 1;
     public static final double SPECIAL_MOVIE_DISCOUNT_PERCENT = 0.2; // 20% discount for special movie
     public static final double TIME_DISCOUNT_PERCENT = 0.25; // 25% discount for movies starting between certain times
+
     public static final double FIRST_SHOW_DISCOUNT = 3.00;
     public static final double SECOND_SHOW_DISCOUNT = 2.00;
 
@@ -26,6 +31,12 @@ public class PricingService implements IPricingService {
 
     public static final int DATE_DISCOUNT_DAY = 7; // 7th of the month is discount day
     public static final double DATE_DISCOUNT_AMOUNT = 1.00;
+
+    private List<IPricingDiscount> discountRules;
+    @Autowired
+    public PricingService(List<IPricingDiscount> discountRules) {
+        this.discountRules = discountRules;
+    }
 
     public double calculateTicketPrice(Showing showing) {
         return Math.max(showing.getMovie().getTicketPrice() - calculateDiscount(showing), 0.0); // prevent negative ticket pricing
@@ -40,22 +51,13 @@ public class PricingService implements IPricingService {
      */
     public double calculateDiscount(Showing showing) {
 
-        // calculate special discount
-        double specialDiscount = 0;
-        if (isSpecialMovie(showing.getMovie())) {
-            specialDiscount = showing.getMovie().getTicketPrice() * SPECIAL_MOVIE_DISCOUNT_PERCENT;
+        List<Double> discountList = new ArrayList<>();
+        for (IPricingDiscount discountRule : discountRules) {
+            double discount = discountRule.calculateDiscount(showing);
+            discountList.add(discount);
         }
 
-        // calculate sequence discount
-        double sequenceDiscount = calculateSequenceDiscount(showing);
-
-        // calculate time-based discount
-        double timeDiscount = calculateTimeDiscount(showing);
-
-        // calculate date-based discount
-        double dateDiscount = calculateDateDiscount(showing);
-
-        return Collections.max(Arrays.asList(specialDiscount, sequenceDiscount, timeDiscount, dateDiscount));
+        return Collections.max(discountList);
     }
 
     /**

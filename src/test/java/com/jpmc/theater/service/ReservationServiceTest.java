@@ -6,6 +6,11 @@ import com.jpmc.theater.model.Customer;
 import com.jpmc.theater.model.Movie;
 import com.jpmc.theater.model.Reservation;
 import com.jpmc.theater.model.Showing;
+import com.jpmc.theater.service.pricing.DateDiscount;
+import com.jpmc.theater.service.pricing.IPricingDiscount;
+import com.jpmc.theater.service.pricing.SequenceDiscount;
+import com.jpmc.theater.service.pricing.SpecialDiscount;
+import com.jpmc.theater.service.pricing.TimeOfDayDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,7 +35,7 @@ class ReservationServiceTest {
         ApplicationConfig applicationConfig = new ApplicationConfig();
         ScheduleService scheduleService = new ScheduleService(createScheduleData(), applicationConfig.objectMapper(),
                 localDateProvider);
-        PricingService pricingService = new PricingService();
+        PricingService pricingService = constructPricingService();
         reservationService = new ReservationService(scheduleService, pricingService);
     }
 
@@ -110,5 +116,20 @@ class ReservationServiceTest {
                 new Showing(movieShort, 10, LocalDateTime.of(today, LocalTime.of(23, 30)))
         );
         return schedule;
+    }
+
+    public PricingService constructPricingService() {
+        PricingService pricingService;
+        List<IPricingDiscount> discountRuleList = new ArrayList<>();
+        IPricingDiscount specialDiscount = new SpecialDiscount();
+        discountRuleList.add(specialDiscount);
+        IPricingDiscount sequenceDiscount = new SequenceDiscount();
+        discountRuleList.add(sequenceDiscount);
+        IPricingDiscount timeOfDayDiscount = new TimeOfDayDiscount();
+        discountRuleList.add(timeOfDayDiscount);
+        IPricingDiscount dateDiscount = new DateDiscount();
+        discountRuleList.add(dateDiscount);
+        pricingService = new PricingService(discountRuleList);
+        return pricingService;
     }
 }
