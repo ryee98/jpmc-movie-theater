@@ -48,4 +48,6 @@ This is a poorly written application, and we're expecting the candidate to great
   * created service classes for performing business operations.
   * added interface classes to service classes. Changed the method signature of the pricing service and reservation service to simplify usage.
   * addressed issue with flakey unit tests due to time they are run.
-  
+  * refactored the PricingService to allow for new discount rules to be added by implementing an interface so that the rules can be
+  tested separately and be kept separate from the PricingService methods.
+  * put discount rule values in properties file.
