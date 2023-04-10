@@ -1,6 +1,7 @@
 package com.jpmc.theater.service;
 
 import com.jpmc.theater.exception.ScheduleException;
+import com.jpmc.theater.model.Showing;
 
 import java.util.List;
 
@@ -23,4 +24,13 @@ public interface IScheduleService {
      * @throws - ScheduleException if an error occurred
      */
     String generateSchedule(String format) throws ScheduleException;
+
+    /**
+     * getShowing - retrieves a movie showing if the given sequence is valid.
+     * @param sequence The 1-based sequence of the Showing that is requested.
+     * @return The Showing that corresponds to the given sequence value
+     * @throws ScheduleException if the given sequence value does not correspond
+     * to a Showing in the schedule
+     */
+    Showing getShowing(int sequence);
 }

@@ -5,13 +5,11 @@ import com.jpmc.theater.model.Movie;
 import com.jpmc.theater.model.Reservation;
 import com.jpmc.theater.model.Showing;
 import com.jpmc.theater.service.LocalDateProvider;
-import com.jpmc.theater.util.StringUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Theater {
     LocalDateProvider provider;

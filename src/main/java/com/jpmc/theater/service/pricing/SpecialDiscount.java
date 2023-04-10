@@ -2,16 +2,20 @@ package com.jpmc.theater.service.pricing;
 
 import com.jpmc.theater.model.Movie;
 import com.jpmc.theater.model.Showing;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SpecialDiscount implements IPricingDiscount {
     private static int MOVIE_CODE_SPECIAL = 1;
-    public static final double SPECIAL_MOVIE_DISCOUNT_PERCENT = 0.2; // 20% discount for special movie
+    @Value("${special.movie.discount.percent:0.2}")
+    double specialMovieDiscountPercent = 0.2; // 20% discount for special movie
 
     @Override
     public double calculateDiscount(Showing showing) {
         double specialDiscount = 0;
         if (isSpecialMovie(showing.getMovie())) {
-            specialDiscount = showing.getMovie().getTicketPrice() * SPECIAL_MOVIE_DISCOUNT_PERCENT;
+            specialDiscount = showing.getMovie().getTicketPrice() * specialMovieDiscountPercent;
         }
         return specialDiscount;
     }

@@ -3,8 +3,6 @@ package com.jpmc.theater.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Objects;
-
 /**
  * Customer - a model class that represents a customer
  */
