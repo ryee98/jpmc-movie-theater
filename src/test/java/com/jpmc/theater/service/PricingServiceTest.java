@@ -2,6 +2,11 @@ package com.jpmc.theater.service;
 
 import com.jpmc.theater.model.Showing;
 import com.jpmc.theater.model.Movie;
+import com.jpmc.theater.service.pricing.DateDiscount;
+import com.jpmc.theater.service.pricing.IPricingDiscount;
+import com.jpmc.theater.service.pricing.SequenceDiscount;
+import com.jpmc.theater.service.pricing.SpecialDiscount;
+import com.jpmc.theater.service.pricing.TimeOfDayDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +15,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,7 +32,12 @@ class PricingServiceTest {
 
     @BeforeEach
     public void setup() {
-        pricingService = new PricingService();
+        List<IPricingDiscount> discountRuleList = new ArrayList<>();
+        discountRuleList.add(new SpecialDiscount());
+        discountRuleList.add(new SequenceDiscount());
+        discountRuleList.add(new TimeOfDayDiscount());
+        discountRuleList.add(new DateDiscount());
+        pricingService = new PricingService(discountRuleList);
     }
 
     @Test
