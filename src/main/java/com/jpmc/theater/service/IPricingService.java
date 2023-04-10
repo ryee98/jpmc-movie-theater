@@ -1,6 +1,5 @@
 package com.jpmc.theater.service;
 
-import com.jpmc.theater.model.Movie;
 import com.jpmc.theater.model.Showing;
 
 public interface IPricingService {

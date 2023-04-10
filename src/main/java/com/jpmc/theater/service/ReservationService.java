@@ -1,7 +1,6 @@
 package com.jpmc.theater.service;
 
 import com.jpmc.theater.exception.ReservationException;
-import com.jpmc.theater.exception.ScheduleException;
 import com.jpmc.theater.model.Customer;
 import com.jpmc.theater.model.Reservation;
 import com.jpmc.theater.model.Showing;

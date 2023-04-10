@@ -65,7 +65,7 @@ class PricingServiceTest implements IPricingTest {
         Movie spiderMan = new Movie(TEST_MOVIE_TITLE, Duration.ofMinutes(90), TEST_TICKET_PRICE, 0);
         Showing showing = new Showing(spiderMan, 1, LocalDateTime.of(DISCOUNT_DATE, DISCOUNT_TIME));
         // discount should be 25% of ticket price which is the largest discount available
-        assertEquals(PricingService.TIME_DISCOUNT_PERCENT * TEST_TICKET_PRICE, pricingService.calculateDiscount(showing));
+        assertEquals(TIME_DISCOUNT_PERCENT * TEST_TICKET_PRICE, pricingService.calculateDiscount(showing));
     }
 
     /**
